@@ -34,6 +34,7 @@ function Login() {
             const errorCode = error.code;
             const errorMessage = error.message;
             console.log(errorCode,errorMessage)
+           
             // ..
           });
      } 
@@ -49,6 +50,7 @@ function Login() {
             const errorCode = error.code;
             const errorMessage = error.message;
             console.log(errorCode,errorMessage)
+            setFormError("Invalid UserName/Password")
           });
       }
     }
