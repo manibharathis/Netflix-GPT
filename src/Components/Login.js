@@ -5,13 +5,22 @@ import { checkValidData } from "../Utils/validate";
 import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
+  updateProfile,
 } from "firebase/auth";
 import { auth } from "../Utils/firebase";
+import { useDispatch } from "react-redux";
+import { addUser } from "../Utils/userSlice";
+import { USER_AVATAR ,NETFLIX_BG} from "../Utils/constants";
+
 function Login() {
   const [isSignInForm, setisSignInForm] = useState(true);
   const [formError, setFormError] = useState(null);
+  const dispatch = useDispatch();
+
+  const name = useRef(null);
   const email = useRef(null);
   const password = useRef(null);
+
   const toggleSignInForm = () => {
     setisSignInForm(!isSignInForm);
   };
@@ -20,37 +29,57 @@ function Login() {
     console.log(isError);
     if (isError) {
       setFormError(isError);
-      return
+      return;
     } else {
       if (isSignInForm) {
-        createUserWithEmailAndPassword(auth, email.current.value, password.current.value)
+        createUserWithEmailAndPassword(
+          auth,
+          email.current.value,
+          password.current.value
+        )
           .then((userCredential) => {
             // Signed up
             const user = userCredential.user;
-            console.log(user)
-            // ...
+            updateProfile(user, {
+              displayName: name.current.value,
+              photoURL: USER_AVATAR,
+            });
+          })
+          .then(()=>{
+            const {uid, email, displayName , photoURL} = auth.currentUser
+            dispatch(
+              addUser({
+                uid: uid,
+                email: email,
+                displayName: displayName,
+                photoURL: photoURL,
+              })
+            )
           })
           .catch((error) => {
             const errorCode = error.code;
             const errorMessage = error.message;
-            console.log(errorCode,errorMessage)
-           
+            console.log(errorCode, errorMessage);
+
             // ..
           });
-     } 
-     else {
-        signInWithEmailAndPassword(auth, email.current.value, password.current.value)
+      } else {
+        signInWithEmailAndPassword(
+          auth,
+          email.current.value,
+          password.current.value
+        )
           .then((userCredential) => {
             // Signed in
             const user = userCredential.user;
-            console.log(user)
+            console.log(user);
             // ...
           })
           .catch((error) => {
             const errorCode = error.code;
             const errorMessage = error.message;
-            console.log(errorCode,errorMessage)
-            setFormError("Invalid UserName/Password")
+            console.log(errorCode, errorMessage);
+            setFormError("Invalid UserName/Password");
           });
       }
     }
@@ -62,7 +91,7 @@ function Login() {
         <img
           alt="background"
           className=""
-          src="https://assets.nflxext.com/ffe/siteui/vlv3/9390f6f6-cf80-4bc9-8981-8c2cc8adf98a/web/IN-en-20250421-TRIFECTA-perspective_dc5bcfdf-88a5-4972-8ffe-b28ff942f76e_large.jpg"
+          src={NETFLIX_BG}
         ></img>
       </div>
       <form

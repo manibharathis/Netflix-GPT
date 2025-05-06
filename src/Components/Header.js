@@ -1,12 +1,68 @@
-import React from 'react'
+import React from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { Navigate, useNavigate } from "react-router-dom";
+import {  useEffect } from "react";
+import { onAuthStateChanged, signOut } from "firebase/auth";
+import { auth } from "../Utils/firebase";
+import { addUser , removeUser} from "../Utils/userSlice";
+import { NETFLIX_LOGO } from "../Utils/constants";
 
 function Header() {
+  const dispatch = useDispatch();
+
+  const navigate = useNavigate();
+  const user = useSelector((store) => store.user);
+  const handleSignOut = () => {
+    signOut(auth)
+      .then(() => {})
+      .catch((error) => {
+        Navigate("/error");
+      });
+  };
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      if (user) {
+        const { uid, email, displayName, photoURL } = user;
+        dispatch(
+          addUser({
+            uid: uid,
+            email: email,
+            displayName: displayName,
+            photoURL: "https://avatars.githubusercontent.com/u/17941613?v=4",
+          })
+        );
+        navigate("/browse");
+      } else {
+        dispatch(removeUser());
+        navigate("/");
+      }
+    });
+
+    // Unsiubscribe when component unmounts
+    return () => unsubscribe();
+  }, []);
   return (
-    <div className='w-screen absolute  bg-gradient-to-b from-black z-20'>
-     
-      <img className='w-48 h-16 mt-4 bg-gradient-to-b from-black absolute block mx-auto md:mx-0' src="https://help.nflxext.com/helpcenter/OneTrust/oneTrust_production/consent/87b6a5c0-0104-4e96-a291-092c11350111/01938dc4-59b3-7bbc-b635-c4131030e85f/logos/dd6b162f-1a32-456a-9cfe-897231c7763c/4345ea78-053c-46d2-b11e-09adaef973dc/Netflix_Logo_PMS.png" alt="logo"></img>
+    <div className="w-screen absolute  bg-gradient-to-b from-black z-20">
+      <img
+        className="w-48 h-16 mt-4  absolute block mx-auto md:mx-0"
+        src={NETFLIX_LOGO}
+        alt="logo"
+      ></img>
+      {user && 
+      <div className="flex justify-end">
+       
+      <img
+            className="hidden md:block w-12 h-12"
+            alt="usericon"
+            src={user?.photoURL}
+          />
+          <button onClick={handleSignOut} className="font-bold text-white ">
+            (Sign Out)
+          </button>
       </div>
-  )
+}
+    </div>
+  );
 }
 
-export default Header
+export default Header;
