@@ -1,15 +1,22 @@
 import React from 'react'
 import { useSelector } from 'react-redux'
+import VideoTile from './VideoTile'
+import VideoBackground from './VideoBackground'
+import { useDispatch } from 'react-redux'
+import { addMovieTrailer } from '../Utils/moviesSlice'
 function MainContainer() {
     const movies = useSelector((store)=>store.movies?.nowPlayingMovies)
+    const dispatch = useDispatch()
      if(!movies){
         return
      }
-     const mainMovies = movies[0]
-     console.log(mainMovies)
+     const mainMovie = movies[0]
+     console.log(mainMovie)
+    
   return (
     <div>
-      
+      <VideoTile title={mainMovie.title} overview={mainMovie.overview}/>
+      <VideoBackground id={mainMovie.id}/>
     </div>
   )
 }
