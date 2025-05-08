@@ -7,7 +7,7 @@ const useNowPlayingMovies= ()=>{
 const getNowPlayingMovies = async () => {
   fetch(NOW_PLAYING_URL, OPTIONS)
     .then((res) => res.json())
-    .then((json) => {console.log(json.results)
+    .then((json) => {
       dispatch(addNowPlayingMovies(json.results))
     })
     .catch((err) => console.error(err));
