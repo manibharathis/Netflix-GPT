@@ -3,6 +3,9 @@ export const NETFLIX_LOGO = "https://help.nflxext.com/helpcenter/OneTrust/oneTru
 export const NETFLIX_BG = "https://assets.nflxext.com/ffe/siteui/vlv3/9390f6f6-cf80-4bc9-8981-8c2cc8adf98a/web/IN-en-20250421-TRIFECTA-perspective_dc5bcfdf-88a5-4972-8ffe-b28ff942f76e_large.jpg"
 
 export const NOW_PLAYING_URL = 'https://api.themoviedb.org/3/movie/now_playing?language=en-US&page=1';
+export const POPULAR_URL = 'https://api.themoviedb.org/3/movie/popular?language=en-US&page=1';
+export const TOP_RATED_URL = 'https://api.themoviedb.org/3/movie/top_rated?language=en-US&page=1'
+export const UPCOMING_URL = 'https://api.themoviedb.org/3/movie/upcoming?language=en-US&page=1';
 export const OPTIONS = {
   method: 'GET',
   headers: {
@@ -10,3 +13,4 @@ export const OPTIONS = {
     Authorization: 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJhMmU2MjczMWI3Mjc5MmI2MzIzOTgzYjBkYzQ1ZGJkOCIsIm5iZiI6MTc0NjYxODM2OC43OTIsInN1YiI6IjY4MWI0ODAwZjlhNjA5MWY3ZWM2OTk3OCIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.RDN2Uc0fVTnWvMZlQdDG3a9BCIdijTQTHp5Ntg8qleo'
   }
 };
+export const IMG_CDN_URL = "https://image.tmdb.org/t/p/w500";

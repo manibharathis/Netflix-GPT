@@ -26,7 +26,7 @@ function Login() {
   };
   const handleClick = () => {
     const isError = checkValidData(email.current.value, password.current.value);
-    console.log(isError);
+    
     if (isError) {
       setFormError(isError);
       return;
@@ -59,7 +59,7 @@ function Login() {
           .catch((error) => {
             const errorCode = error.code;
             const errorMessage = error.message;
-            console.log(errorCode, errorMessage);
+           
 
             // ..
           });
@@ -72,13 +72,13 @@ function Login() {
           .then((userCredential) => {
             // Signed in
             const user = userCredential.user;
-            console.log(user);
+           
             // ...
           })
           .catch((error) => {
             const errorCode = error.code;
             const errorMessage = error.message;
-            console.log(errorCode, errorMessage);
+            
             setFormError("Invalid UserName/Password");
           });
       }
