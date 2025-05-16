@@ -5,17 +5,26 @@ import usePopularMovies from "../Hooks/usePopularMovies";
 import useToRatedMovies from "../Hooks/useTopRatedMovies";
 import UseupComingMovies from "../Hooks/useUpComingMovies";
 import SecondaryContainer from "./SecondaryContainer";
+import GptSerach from "./GptSerach";
+import { useSelector } from "react-redux";
 
 const Browse = () => {
    useNowPlayingMovies()
    usePopularMovies()
    useToRatedMovies()
    UseupComingMovies()
+   const gpt = useSelector((store)=>store.gpt)
   return (
     <div>
       <Header />
+      {!gpt.showGPTButton?<GptSerach />:
+      <>
       <MainContainer/>
       <SecondaryContainer />
+      </>
+      }
+      
+      
 
     </div> 
   );
